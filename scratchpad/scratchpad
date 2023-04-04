@@ -1,0 +1,25 @@
+#!/bin/bash
+
+
+function error {
+    err_msg=$1
+    exit_code=${2:-1}
+    echo "ERROR: ${err_msg}"
+    exit $exit_code
+}
+
+
+DEFAULT_FOLDER_NAME="scratch"
+FOLDER_NAME=${1:-$DEFAULT_FOLDER_NAME}
+cur_dir=$(pwd)
+mkdir ${FOLDER_NAME} || error "Cannot create folder"
+cd ${FOLDER_NAME} || error "Cannot open the created folder"
+echo "Spawning the shell in the scratchpad folder..."
+
+# spawn the default shell used in the system
+${SHELL}
+
+echo "Cleaning up the scratchpad folder"
+
+cd ${cur_dir}
+rm -rf ${FOLDER_NAME}
